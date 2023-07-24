@@ -1,0 +1,14 @@
+{
+  "EmailConfig": {
+    "Username": "",
+    "Password": "",
+    "Sender": "",
+    "Reciver": ""
+  },
+  "Message": {
+    "Subject": "",
+    "Header": "",
+    "Body": "",
+    "Footer": ""
+  }
+}
