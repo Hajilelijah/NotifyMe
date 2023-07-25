@@ -1,0 +1,15 @@
+{
+  "EmailConfig": {
+    "Server": "smtp.gmail.com",
+    "Port": "465",
+    "Username": "textmealert@gmail.com",
+    "Password": "qlshjsedsjjvdcwc",
+    "Sender": "textmealert@gmail.com",
+    "Receiver": "2252880672@tmomail.net"
+  },
+  "Message": {
+    "Subject": "Here's your reminder:",
+    "Header": "",
+    "Footer": "\n\nYou can type responses back!"
+  }
+}
