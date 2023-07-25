@@ -1,9 +1,9 @@
 {
   "EmailConfig": {
-    "Server": "smtp.gmail.com",
-    "Port": "465",
+    "Server": "imap.gmail.com",
+    "Port": "993",
     "Username": "textmealert@gmail.com",
-    "Password": "qlshjsedsjjvdcwc",
+    "Password": "nfbbahwjmehwydxg",
     "Sender": "textmealert@gmail.com",
     "Receiver": "2252880672@tmomail.net"
   },

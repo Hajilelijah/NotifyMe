@@ -3,28 +3,49 @@ import ssl
 from email.message import EmailMessage
 import json
 
-with open("App_Configs\\TextingService.config.json", 'r') as file:
-    config = json.load(file)
 
-# Define email sender and receiver
-email_sender = 'write-email-here'
-email_password = 'write-password-here'
-email_receiver = 'write-email-receiver-here'
+class Config:
+    def __init__(self):
+        with open("App_Configs\\TextingService.config.json", 'r') as file:
+            config = json.load(file)
 
-# Set the subject and body of the email
-subject = 'Check out my new video!'
-body = """ """
+        self.EmailConfig = config["EmailConfig"]
+        self.Server = self.EmailConfig["Server"]
+        self.Port = self.EmailConfig["Port"]
+        self.Username = self.EmailConfig["Username"]
+        self.Password = self.EmailConfig["Password"]
+        self.Sender = self.EmailConfig["Sender"]
+        self.Receiver = self.EmailConfig["Receiver"]
+        self.Message = config["Message"]
+        self.Subject = self.Message["Subject"]
+        self.Header = self.Message["Header"]
+        self.Footer = self.Message["Footer"]
 
-em = EmailMessage()
-em['From'] = email_sender
-em['To'] = email_receiver
-em['Subject'] = subject
-em.set_content(body)
 
-# Add SSL (layer of security)
-context = ssl.create_default_context()
+config = Config()
 
-# Log in and send the email
-with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
-    smtp.login(email_sender, email_password)
-    smtp.sendmail(email_sender, email_receiver, em.as_string())
+
+class message_formater:
+    # def __init__(self, body):
+    #     self.body = body
+    def message(body):
+        content = config.Header + body + config.Footer
+        return content
+
+
+class Text:
+    def message(body):
+        em = EmailMessage()
+        em['From'] = config.Sender
+        em['To'] = config.Receiver
+        em['Subject'] = config.Subject
+        em.set_content(
+            message_formater.message(body))
+
+        # Add SSL (layer of security)
+        context = ssl.create_default_context()
+
+        # Log in and send the email
+        with smtplib.SMTP_SSL(config.Server, config.Port, context=context) as smtp:
+            smtp.login(config.Username, config.Password)
+            smtp.sendmail(config.Sender, config.Receiver, em.as_string())
