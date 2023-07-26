@@ -9,7 +9,7 @@
   },
   "Message": {
     "Subject": "Here's your reminder:",
-    "Header": "",
-    "Footer": "\n\nYou can type responses back!"
+    "Header": "\n\n",
+    "Footer": "\n\n----------------------"
   }
 }

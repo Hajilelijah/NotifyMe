@@ -1,5 +1,6 @@
 import schedule
 import time
+from tqdm import tqdm
 import TextingService
 from functools import partial
 
@@ -23,12 +24,22 @@ class Scheduled_Message:
         # Schedule the message sending job
         schedule.every(self.wait_time).seconds.do(send_with_message)
 
-        while True:
-            print("Getting ready to send")
+        count = 0
+
+        # Use tqdm to create a progress bar
+        for i in tqdm(range(self.wait_time + 1), desc="Processing", ncols=100):
+            # Simulate some work (replace this with your actual processing code)
+
             schedule.run_pending()
             time.sleep(1)
 
+            time.sleep(0.1)
+
+
+# Example loop to simulate progress
+total_iterations = 100
+
 
 # Call the scheduling function with the message and wait time
-message1 = Scheduled_Message(1, "hey", 5)
-message1.schedule_message()
+# message1 = Scheduled_Message(1, "hey", 5)
+# message1.schedule_message()

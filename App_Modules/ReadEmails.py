@@ -101,7 +101,7 @@ class get_Email:
             else:
                 body = email_obj.get_payload(decode=True).decode()
 
-            print("Body:", body)
+            return body
 
         finally:
             # Close the connection to the IMAP server
@@ -120,8 +120,13 @@ class get_Email:
             server.select(folder)
 
             # Search for all emails in the selected folder and sort them in reverse order
-            _, message_numbers = server.search(None, 'ALL')
+            _, message_numbers = server.search(None, 'UNSEEN')
             message_numbers = sorted(message_numbers[0].split(), reverse=True)
+            # print("Message Numbers:", message_numbers)
+
+            # Print the selected folder
+            selected_folder = server.select(folder)
+            # print("Selected Folder:", selected_folder)
 
             # Get the latest email (first in the list)
             latest_email_number = message_numbers[0]
@@ -133,8 +138,18 @@ class get_Email:
             # Get the subject from the headers
             subject = email_headers.get('Subject', '')
 
+            _, msg_data = server.fetch(latest_email_number, '(RFC822)')
+            email_obj = email.message_from_bytes(msg_data[0][1])
+
+            # Check for attachments
+            for part in email_obj.walk():
+                content_type = part.get_content_type()
+                if content_type == "text/plain":
+                    # Read the contents of the text file directly from the email attachment
+                    file_contents = part.get_payload(decode=True).decode()
+
             # Print the subject of the latest email
-            print("Subject:", subject)
+            return str(subject), str(file_contents)
 
         finally:
             # Close the connection to the IMAP server
@@ -153,7 +168,7 @@ class get_Email:
             server.select(folder)
 
             # Search for all emails in the selected folder and sort them in reverse order
-            _, message_numbers = server.search(None, 'ALL')
+            _, message_numbers = server.search(None, 'UNSEEN')
             message_numbers = sorted(message_numbers[0].split(), reverse=True)
 
             # Get the latest email (first in the list)
@@ -170,8 +185,7 @@ class get_Email:
                     # Read the contents of the text file directly from the email attachment
                     file_contents = part.get_payload(decode=True).decode()
 
-                    print("Text file contents:")
-                    print(file_contents)
+                    return str(file_contents)
 
                     # You can further process the content of the text file here if needed
 
@@ -180,5 +194,6 @@ class get_Email:
             server.logout()
 
 
-if __name__ == "__main__":
-    get_Email.process_latest_email_subject()
+# if __name__ == "__main__":
+#     # get_Email.process_emails()
+#     print(get_Email.process_latest_email_subject())
